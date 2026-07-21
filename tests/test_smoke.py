@@ -10,6 +10,10 @@ from asset_checkout.cli import demo_state
 from asset_checkout.storage import load_state, save_state
 from asset_checkout.models import generate_short_id
 from asset_checkout.validation import normalize_tags, require_text, validate_task_status
+from asset_checkout.services import (
+    create_note,
+    list_notes,
+)
 
 
 class ProjectSmokeTests(unittest.TestCase):
@@ -57,6 +61,14 @@ class ProjectSmokeTests(unittest.TestCase):
         self.assertEqual(validate_task_status("todo"), "todo")
         with self.assertRaises(ValueError):
             require_text(" ", "title")
+
+    def test_create_and_list_notes(self) -> None:
+        state = ProjectState()
+        note = create_note(state, " New note ", "Body", ["Work", "work"])
+
+        self.assertEqual(note.title, "New note")
+        self.assertEqual(note.tags, ["work"])
+        self.assertEqual(list_notes(state), [note])
 
 
 if __name__ == "__main__":
