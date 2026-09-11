@@ -1,4 +1,4 @@
 """Local utility package for AssetCheckout."""
 
 __all__ = ["__version__"]
-__version__ = "0.31.0"
+__version__ = "0.32.0"
